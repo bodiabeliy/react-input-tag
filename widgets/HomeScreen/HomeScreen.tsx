@@ -53,7 +53,6 @@ const HomeScreen = () => {
   }, [isDisabled])
 
   const handleChange = (data:any) => {
-   console.log("data", data);
    
   
 }
@@ -79,7 +78,7 @@ const HomeScreen = () => {
         <div className="box-border h-20  p-1">
           <div className="h-full w-full">
             <div className="flex">
-              <Input className="flex-wrap w-8" value={tag?.value + " + "} disabled={isDisabled} onChange={handleChange}/>
+              <Input className="flex-wrap w-8" value={tag?.value + " + "} disabled={isDisabled} onChange={handleChange} placeholder={t("placeholder")}/>
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import React, { ChangeEventHandler, useCallback, useState } from "react";
 import { WithContext as ReactTags } from "react-tag-input";
 import { useCategoriesQuery } from "../../shared/hooks/useCategoriesQuery";
 import { useCategoryTagStore } from "../../providers/store";
+import Input from "../../shared/UI/Input/Input";
 
 const KeyCodes = {
   comma: 188,
@@ -12,7 +13,7 @@ const KeyCodes = {
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 const HomeScreen = () => {
 
-  const [mathOperation, setMathOperation] = useState()
+  const [isDisabled, setIsDisabled] = useState(true)
   const {data} = useCategoriesQuery()
   const categoryTags = useCategoryTagStore(state =>state.categoryTags)
   const categoryIndex= useCategoryTagStore(state =>state.categoryIndex)
@@ -46,9 +47,16 @@ const HomeScreen = () => {
     draggTag(tag, currPos, newPos)
   };
 
-  const changeMathOperations = (e:any) => {
+  const handleTagClick = useCallback((numberIndex:number) => {
+      setIsDisabled(!isDisabled)
     
-  }
+  }, [isDisabled])
+
+  const handleChange = (data:any) => {
+   console.log("data", data);
+   
+  
+}
 
   
   const { t } = useTranslation("home");
@@ -62,17 +70,16 @@ const HomeScreen = () => {
         handleDelete={handleDelete}
         handleAddition={handleAdd}
         handleDrag={handleDrag}
-        // handleTagClick={handleTagClick}
+        handleTagClick={handleTagClick}
         inputFieldPosition="bottom"
         autocomplete
       />
-      <div className="flex">
+      <div className="flex items-baseline	pl-2">
       {categoryTags?.map((tag, indexPosition) => (
         <div className="box-border h-20  p-1">
           <div className="h-full w-full">
             <div className="flex">
-            {tag.value}
-            <input type="text" value={mathOperation} onChange={(e:any) =>changeMathOperations(e.target.value)}/>
+              <Input className="flex-wrap w-8" value={tag?.value + " + "} disabled={isDisabled} onChange={handleChange}/>
             </div>
           </div>
         </div>
